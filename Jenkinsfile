@@ -12,9 +12,8 @@ spec:
     image: docker:20.10-dind
     securityContext:
       privileged: true
-    command:
-    - dockerd-entrypoint.sh
     args:
+    - dockerd
     - --host=tcp://127.0.0.1:2375
     - --host=unix:///var/run/docker.sock
     - --tls=false
@@ -25,16 +24,21 @@ spec:
       name: docker-graph-storage
     - mountPath: /home/jenkins/agent
       name: workspace-volume
-      readOnly: false
   - name: jnlp
     image: jenkins/inbound-agent:3309.v27b_9314fd1a_4-1
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
     env:
     - name: JENKINS_AGENT_WORKDIR
       value: /home/jenkins/agent
     volumeMounts:
     - mountPath: /home/jenkins/agent
       name: workspace-volume
-      readOnly: false
+  nodeSelector:
+    kubernetes.io/os: linux
+  restartPolicy: Never
   volumes:
   - name: docker-graph-storage
     emptyDir: {}
@@ -50,6 +54,12 @@ spec:
   }
 
   stages {
+    stage('Esperar Docker') {
+      steps {
+        sh 'sleep 20'
+      }
+    }
+
     stage('Build Docker image') {
       steps {
         sh 'docker version'
