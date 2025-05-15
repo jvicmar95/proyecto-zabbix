@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "jvicmar95/proyecto-zabbix:latest"
+    DOCKER_HOST = "tcp://localhost:2375"
   }
 
   stages {
@@ -14,6 +15,7 @@ pipeline {
 
     stage('Build Docker image') {
       steps {
+        sh 'docker version'
         sh 'docker build -t $DOCKER_IMAGE .'
       }
     }
