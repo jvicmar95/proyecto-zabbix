@@ -17,13 +17,28 @@ spec:
     args:
     - --host=tcp://127.0.0.1:2375
     - --host=unix:///var/run/docker.sock
+    - --tls=false
     ports:
     - containerPort: 2375
     volumeMounts:
     - mountPath: /var/lib/docker
       name: docker-graph-storage
+    - mountPath: /home/jenkins/agent
+      name: workspace-volume
+      readOnly: false
+  - name: jnlp
+    image: jenkins/inbound-agent:3309.v27b_9314fd1a_4-1
+    env:
+    - name: JENKINS_AGENT_WORKDIR
+      value: /home/jenkins/agent
+    volumeMounts:
+    - mountPath: /home/jenkins/agent
+      name: workspace-volume
+      readOnly: false
   volumes:
   - name: docker-graph-storage
+    emptyDir: {}
+  - name: workspace-volume
     emptyDir: {}
 """
     }
