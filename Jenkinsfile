@@ -26,7 +26,7 @@ spec:
       name: workspace-volume
 
   - name: kubectl
-    image: bitnami/kubectl:latest
+    image: lachlanevenson/k8s-kubectl:latest
     command:
     - cat
     tty: true
@@ -90,6 +90,8 @@ spec:
     stage('Deploy to Kubernetes') {
       steps {
         container('kubectl') {
+          sh 'ls -la'
+          sh 'kubectl version --client'
           sh 'kubectl apply -f deployment.yaml'
         }
       }
