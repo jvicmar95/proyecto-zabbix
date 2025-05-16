@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-nginx
+  labels:
+    app: web-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-nginx
+  template:
+    metadata:
+      labels:
+        app: web-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: jvicmar95/proyecto-zabbix:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-nginx
+spec:
+  selector:
+    app: web-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer # o ClusterIP si harás port-forward
