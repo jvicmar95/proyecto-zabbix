@@ -65,34 +65,39 @@ spec:
   }
 
   stages {
-    stage('Esperar Docker') {
+    stage('⏳ Esperar Docker') {
       steps {
+        sh 'echo "⏱ Esperando que Docker esté disponible..."'
         sh 'sleep 20'
       }
     }
 
-    stage('Build Docker image') {
+    stage('🐳 Build Docker image') {
       steps {
-        sh 'docker version'
-        sh 'docker build -t $DOCKER_IMAGE .'
+        sh 'echo "🔍 Verificando Docker..." && docker version'
+        sh 'echo "🏗️ Construyendo imagen..." && docker build -t $DOCKER_IMAGE .'
       }
     }
 
-    stage('Push Docker image') {
+    stage('📤 Push Docker image') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-          sh 'docker push $DOCKER_IMAGE'
+          sh 'echo "🔐 Login en Docker Hub..." && echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+          sh 'echo "📦 Subiendo imagen a Docker Hub..." && docker push $DOCKER_IMAGE'
         }
       }
     }
 
-    stage('Deploy to Kubernetes') {
+    stage('🚀 Deploy to Kubernetes') {
       steps {
         container('kubectl') {
-          sh 'ls -la'
-          sh 'kubectl version --client'
-          sh 'kubectl apply -f deployment.yaml'
+          sh 'echo "📂 Listando archivos..." && ls -la'
+          sh 'echo "🔧 Verificando kubectl..." && kubectl version --client'
+          sh 'echo "🚀 Aplicando deployment..." && kubectl apply -f deployment.yaml'
+          sh 'echo "♻️ Borrando pod antiguo (si existe)..." && kubectl delete pod -l app=web-nginx -n jenkins || true'
+          sh 'echo "⌛ Esperando nuevo pod..." && sleep 10'
+          sh 'echo "📦 Nuevo pod desplegado:" && kubectl get pods -l app=web-nginx -n jenkins'
+          sh 'echo "🌍 Servicio expuesto:" && kubectl get svc web-nginx -n jenkins'
         }
       }
     }
