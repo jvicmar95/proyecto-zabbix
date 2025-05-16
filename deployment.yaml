@@ -17,6 +17,7 @@ spec:
       containers:
         - name: nginx
           image: jvicmar95/proyecto-zabbix:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 ---
