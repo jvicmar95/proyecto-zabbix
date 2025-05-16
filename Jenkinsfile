@@ -24,6 +24,16 @@ spec:
       name: docker-graph-storage
     - mountPath: /home/jenkins/agent
       name: workspace-volume
+
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /home/jenkins/agent
+      name: workspace-volume
+
   - name: jnlp
     image: jenkins/inbound-agent:3309.v27b_9314fd1a_4-1
     resources:
@@ -36,6 +46,7 @@ spec:
     volumeMounts:
     - mountPath: /home/jenkins/agent
       name: workspace-volume
+
   nodeSelector:
     kubernetes.io/os: linux
   restartPolicy: Never
@@ -78,7 +89,9 @@ spec:
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh 'kubectl apply -f deployment.yaml'
+        container('kubectl') {
+          sh 'kubectl apply -f deployment.yaml'
+        }
       }
     }
   }
