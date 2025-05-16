@@ -1,3 +1,9 @@
+properties([
+  parameters([
+    string(name: 'APP_VERSION', defaultValue: '1.0', description: 'Introduce la versión a desplegar (ej. 1.0, 2.0, etc.)')
+  ])
+])
+
 pipeline {
   agent {
     kubernetes {
@@ -61,7 +67,7 @@ spec:
 
   environment {
     DOCKER_HOST = "tcp://127.0.0.1:2375"
-    DOCKER_IMAGE = "jvicmar95/proyecto-zabbix:latest"
+    DOCKER_IMAGE = "jvicmar95/proyecto-zabbix:${APP_VERSION}"
   }
 
   stages {
@@ -75,7 +81,7 @@ spec:
     stage('🐳 Build Docker image') {
       steps {
         sh 'echo "🔍 Verificando Docker..." && docker version'
-        sh 'echo "🏗️ Construyendo imagen..." && docker build -t $DOCKER_IMAGE .'
+        sh 'echo "🏗️ Construyendo imagen $DOCKER_IMAGE..." && docker build -t $DOCKER_IMAGE .'
       }
     }
 
