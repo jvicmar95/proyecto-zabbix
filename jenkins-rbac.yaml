@@ -7,8 +7,9 @@ rules:
 - apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
 - apiGroups: [""]
-  resources: ["services", "pods"]   # ✅ Añadimos "pods"
+  resources: ["services", "pods", "persistentvolumeclaims"]  # ✅ Añadido PVC
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1

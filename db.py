@@ -1,7 +1,8 @@
 import sqlite3
+import os
 
-# Nombre del archivo de base de datos
-DB_FILE = 'tareas.db'
+# Usamos /data para guardar tareas.db porque es donde está montado el volumen
+DB_FILE = os.path.join('/data', 'tareas.db')
 
 # Crea la tabla si no existe
 def init_db():

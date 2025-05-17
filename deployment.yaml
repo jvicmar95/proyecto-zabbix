@@ -22,11 +22,11 @@ spec:
             - containerPort: 5000
           volumeMounts:
             - name: tareas-volumen
-              mountPath: /app   # Aquí se guarda tareas.db
+              mountPath: /data   # ✅ Montamos el PVC en /data
       volumes:
         - name: tareas-volumen
           persistentVolumeClaim:
-            claimName: tareas-pvc   # El PVC debe coincidir con este nombre
+            claimName: tareas-pvc
 
 ---
 apiVersion: v1
