@@ -1,10 +1,10 @@
 FROM nginx:alpine
 
-# Elimina la página por defecto de nginx que interfiere
+# Elimina la página por defecto
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copia todo el contenido del sitio
+# Copia archivos HTML y CSS
 COPY web/ /usr/share/nginx/html/
 
-# Asegura los tipos MIME y rutas válidas
+# Copia configuración personalizada
 COPY nginx.conf /etc/nginx/nginx.conf
