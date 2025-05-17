@@ -1,16 +1,15 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template_string, request, redirect, send_from_directory
 from db import init_db, obtener_tareas, agregar_tarea, eliminar_tarea
 
-# Inicializa la app y define dónde buscar templates y estáticos
-app = Flask(__name__, template_folder='web/templates', static_folder='web/static')
-
-# Creamos la base de datos si no existe
+app = Flask(__name__)
 init_db()
 
 @app.route('/')
 def index():
+    with open('web/index.html', encoding='utf-8') as f:
+        html = f.read()
     tareas = obtener_tareas()
-    return render_template('index.html', tareas=tareas)
+    return render_template_string(html, tareas=tareas)
 
 @app.route('/add', methods=['POST'])
 def add():
@@ -25,6 +24,10 @@ def delete(index):
     eliminar_tarea(index)
     print(f"✖ Tarea en índice {index} eliminada")
     return redirect('/')
+
+@app.route('/styles.css')
+def css():
+    return send_from_directory('web', 'styles.css')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
