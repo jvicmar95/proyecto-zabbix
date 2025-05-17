@@ -100,7 +100,7 @@ spec:
           sh 'echo "📂 Listando archivos..." && ls -la'
           sh 'echo "🔧 Verificando kubectl..." && kubectl version --client'
           sh 'echo "🚀 Aplicando deployment.yaml..." && kubectl apply -f deployment.yaml'
-          sh 'echo "🔁 Actualizando imagen del deployment..." && kubectl set image deployment/web-nginx nginx=$DOCKER_IMAGE -n jenkins'
+          sh 'echo "🔁 Actualizando imagen del deployment..." && kubectl set image deployment/web-nginx flask=$DOCKER_IMAGE -n jenkins' // <== CORREGIDO
           sh 'echo "♻️ Borrando pod antiguo (si existe)..." && kubectl delete pod -l app=web-nginx -n jenkins || true'
           sh 'echo "⌛ Esperando nuevo pod..." && sleep 10'
           sh 'echo "📦 Nuevo pod desplegado:" && kubectl get pods -l app=web-nginx -n jenkins'
