@@ -19,7 +19,14 @@ spec:
           image: jvicmar95/proyecto-zabbix:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 5000   # 👈 Cambiado de 80 a 5000
+            - containerPort: 5000
+          volumeMounts:
+            - name: tareas-volumen
+              mountPath: /app   # Aquí se guarda tareas.db
+      volumes:
+        - name: tareas-volumen
+          persistentVolumeClaim:
+            claimName: tareas-pvc   # El PVC debe coincidir con este nombre
 
 ---
 apiVersion: v1
@@ -32,5 +39,17 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5000            # 👈 Muy importante: apunta al puerto del contenedor
+      targetPort: 5000
   type: LoadBalancer
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tareas-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
