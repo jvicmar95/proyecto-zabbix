@@ -1,10 +1,9 @@
-FROM nginx:alpine
+FROM python:3.12-slim
 
-# Elimina la página por defecto
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copia archivos HTML y CSS
-COPY web/ /usr/share/nginx/html/
+COPY . .
 
-# Copia configuración personalizada
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN pip install flask
+
+CMD ["python", "app.py"]

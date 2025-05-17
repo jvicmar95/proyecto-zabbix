@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Página Bonita</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Mis Tareas</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header>
-    <h1>Bienvenido a Mi Página</h1>
-    <p>Diseño moderno, limpio y responsive</p>
+    <h1>📝 Lista de Tareas</h1>
+    <p>¡Organiza tu día!</p>
   </header>
 
   <main>
-    <section class="card">
-      <h2>¿Qué encontrarás aquí?</h2>
-      <p>Contenido increíble, diseño agradable y mucho más.</p>
-    </section>
+    <form action="/add" method="POST" class="card">
+      <input type="text" name="tarea" placeholder="Escribe una nueva tarea..." required />
+      <button type="submit">Agregar</button>
+    </form>
 
+    {% for tarea in tareas %}
     <section class="card">
-      <h2>Contacto</h2>
-      <p>Correo: ejemplo@correo.com</p>
+      <p>{{ tarea }}</p>
+      <a href="/delete/{{ loop.index0 }}" class="borrar">❌ Borrar</a>
     </section>
+    {% endfor %}
   </main>
 
   <footer>
-    <p>&copy; 2025 Jorge Vicente. Todos los derechos reservados!.</p>
+    <p>&copy; 2025 Jorge Vicente</p>
   </footer>
 </body>
 </html>
