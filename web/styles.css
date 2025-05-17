@@ -1,27 +1,65 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #74ebd5, #acb6e5);
-  color: #2c3e50;
-  text-align: center;
-  padding: 50px;
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1 {
+body {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: #ffffff;
-  background-color: #3498db;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-p {
-  font-size: 20px;
-  color: #1a1a1a;
-  margin-top: 30px;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: inline-block;
-  padding: 15px 25px;
+header {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #dcdcdc;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
   border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #ffeb3b;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem;
 }
